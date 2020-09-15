@@ -1,2 +1,2 @@
-Learning the basics of the Ruby language
-----------------------------------------
+Learning the basics of the Ruby development
+-------------------------------------------
