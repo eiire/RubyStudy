@@ -4,7 +4,9 @@ require 'csv'
 
 class String
   def numeric?
-    Float(self) != nil rescue false
+    !Float(self).nil?
+  rescue StandardError
+    false
   end
 end
 
@@ -70,7 +72,7 @@ class EconomCalculator
     return 'Incorrect data!' + "\n" unless @is_data
 
     mean = []
-    (0..(@n_columns)).each do |_|
+    (0..@n_columns).each do |_|
       mean.append(0)
     end
 

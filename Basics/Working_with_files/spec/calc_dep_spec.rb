@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rspec'
 require 'csv'
 require_relative '../calculating_dependencies'
@@ -6,13 +7,13 @@ require_relative '../calculating_dependencies'
 describe 'EconomCalculator' do
   it 'min' do
     data = EconomCalculator.new('spec/demo32.csv')
-    test_list = [49378, 184398, 396589, 580720, 559918, 665904]
+    test_list = [49_378, 184_398, 396_589, 580_720, 559_918, 665_904]
     expect(data.min.split(',')[1]).to eq test_list.min.to_f.to_s
   end
 
   it 'max' do
     data = EconomCalculator.new('spec/demo32.csv')
-    test_list = [49378, 184398, 396589, 580720, 559918, 665904]
+    test_list = [49_378, 184_398, 396_589, 580_720, 559_918, 665_904]
     expect(data.max.split(',')[1]).to eq test_list.max.to_f.to_s
   end
 
