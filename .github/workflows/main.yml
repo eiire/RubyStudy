@@ -15,7 +15,7 @@ jobs:
         run: |
           gem install bundler
           bundle install --jobs 4 --retry 3
-      - name: Rubocop
-        run: bundle exec rubocop
-      - name: RSpec
+      - name: Rubocop lab_1
+        run: cd Basics/Degree_conversion/ && bundle exec rspec
+      - name: RSpec lab_1
         run: cd Basics/Degree_conversion/ && bundle exec rspec

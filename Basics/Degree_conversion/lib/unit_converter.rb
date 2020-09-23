@@ -1,6 +1,3 @@
-# frozen_string_literal: true
-
-# instance object may convert C, F, K in degrees
 class UnitConverter
   def initialize(user_input)
     data_list = user_input.split(':')
@@ -9,26 +6,35 @@ class UnitConverter
   end
 
   def to_c
-    if @convert_from == 'F'
+    case @convert_from
+    when 'F'
       ((@unit - 32) / 1.8).round(4)
-    elsif @convert_from == 'K'
+    when 'K'
       @unit.negative? ? raise('Incorrect value for scale K') : (@unit - 273).round(4)
+    else
+      'Incorrect input!'
     end
   end
 
   def to_k
-    if @convert_from == 'C'
+    case @convert_from
+    when 'C'
       (@unit + 273).round(4)
-    elsif @convert_from == 'F'
+    when 'F'
       (((@unit - 32) * 1.8) + 273.15).round(4)
+    else
+      'Incorrect input!'
     end
   end
 
   def to_f
-    if @convert_from == 'C'
+    case @convert_from
+    when 'C'
       (@unit * 1.8 + 32).round(4)
-    elsif @convert_from == 'K'
+    when 'K'
       @unit.negative? ? raise('Incorrect value for scale K') : ((@unit - 273.15) * 1.8 + 32).round(4)
+    else
+      'Incorrect input!'
     end
   end
 end
