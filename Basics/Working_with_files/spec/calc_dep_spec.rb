@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 require 'rspec'
 require 'csv'
-require_relative '../calculating_dependencies'
+require_relative '../lib/econom_calculator'
 
 describe 'EconomCalculator' do
   it 'min' do
@@ -26,9 +24,9 @@ describe 'EconomCalculator' do
   end
 
   it 'mean max min variance with incorrect data' do
-    expect(EconomCalculator.new('spec/demo32_incorrect.csv').find_mean).to eq 'Incorrect data!' + "\n"
-    expect(EconomCalculator.new('spec/demo32_incorrect.csv').max).to eq 'Incorrect data!' + "\n"
-    expect(EconomCalculator.new('spec/demo32_incorrect.csv').min).to eq 'Incorrect data!' + "\n"
-    expect(EconomCalculator.new('spec/demo32_incorrect.csv').variance).to eq 'Incorrect data!' + "\n"
+    expect(EconomCalculator.new('spec/demo32_incorrect.csv').find_mean).to eq "Incorrect data!\n"
+    expect(EconomCalculator.new('spec/demo32_incorrect.csv').max).to eq "Incorrect data!\n"
+    expect(EconomCalculator.new('spec/demo32_incorrect.csv').min).to eq "Incorrect data!\n"
+    expect(EconomCalculator.new('spec/demo32_incorrect.csv').variance).to eq "Incorrect data!\n"
   end
 end

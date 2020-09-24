@@ -19,3 +19,7 @@ jobs:
         run: cd Basics/Degree_conversion/ && bundle exec rspec
       - name: RSpec lab_1
         run: cd Basics/Degree_conversion/ && bundle exec rspec
+      - name: Rubocop lab_2
+        run: cd Basics/Working_with_files/ && bundle exec rspec
+      - name: RSpec lab_2
+        run: cd Basics/Working_with_files/ && bundle exec rspec
