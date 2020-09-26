@@ -6,8 +6,16 @@ RSpec.describe 'TO_CONVERT_UNIT' do
     expect(UnitConverter.new('F:100').to_c).to eq 37.7778
   end
 
+  it 'From F to C [incorrect data]' do
+    expect(UnitConverter.new('B:100').to_c).to eq 'Incorrect input!'
+  end
+
   it 'From C to F' do
     expect(UnitConverter.new('C:100').to_f).to eq 212
+  end
+
+  it 'From C to F [incorrect data]' do
+    expect(UnitConverter.new('B:100').to_f).to eq 'Incorrect input!'
   end
 
   it 'From F to K' do
@@ -16,6 +24,10 @@ RSpec.describe 'TO_CONVERT_UNIT' do
 
   it 'From K to F' do
     expect(UnitConverter.new('K:32').to_f).to eq(-402.07)
+  end
+
+  it 'From K to F [incorrect data]' do
+    expect(UnitConverter.new('B:32').to_f).to eq 'Incorrect input!'
   end
 
   it 'From C to K' do
