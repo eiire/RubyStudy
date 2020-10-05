@@ -22,13 +22,10 @@ class EconomCalculator
   def max
     return "Incorrect data!\n" unless @is_data
 
-    res = []
-    (0..@n_columns).each do |i|
-      vals_columns = []
-      @data_matrix.each do |row|
+    res = (0..@n_columns).reduce([]) do |res_columns, i|
+      res_columns.append (@data_matrix.reduce([]) do |vals_columns, row|
         vals_columns.append row[i]
-      end
-      res.append vals_columns.max
+      end).max
     end
 
     "#{res.join(',')}\n"
@@ -37,13 +34,10 @@ class EconomCalculator
   def min
     return "Incorrect data!\n" unless @is_data
 
-    res = []
-    (0..@n_columns).each do |i|
-      vals_columns = []
-      @data_matrix.each do |row|
+    res = (0..@n_columns).reduce([]) do |res_columns, i|
+      res_columns.append (@data_matrix.reduce([]) do |vals_columns, row|
         vals_columns.append row[i]
-      end
-      res.append vals_columns.min
+      end).min
     end
 
     "#{res.join(',')}\n"
@@ -52,9 +46,8 @@ class EconomCalculator
   def find_mean
     return "Incorrect data!\n" unless @is_data
 
-    mean = []
-    (0..@n_columns).each do |_|
-      mean.append(0)
+    mean = (0..@n_columns).reduce([]) do |init, _|
+      init.append(0)
     end
 
     @data_matrix.each do |row|
@@ -63,9 +56,9 @@ class EconomCalculator
       end
     end
 
-    (0..@n_columns).each do |i|
-      mean[i] = (mean[i] / @n_rows).round(4)
-    end
+    mean.map! do |res_column|
+      (res_column / @n_rows).round(4)
+    end.join(',')
 
     "#{mean.join(',')}\n"
   end
@@ -73,9 +66,8 @@ class EconomCalculator
   def variance
     return "Incorrect data!\n" unless @is_data
 
-    res = []
-    (0..@n_columns).each do |_|
-      res.append(0)
+    res = (0..@n_columns).reduce([]) do |init, _|
+      init.append(0)
     end
 
     to_center.each do |row|
@@ -84,8 +76,8 @@ class EconomCalculator
       end
     end
 
-    (0..@n_columns).each do |i|
-      res[i] = (res[i] / (@n_rows - 1)).round(4)
+    res.map! do |res_column|
+      (res_column / (@n_rows - 1)).round(4)
     end
 
     "#{res.join(',')}\n"
