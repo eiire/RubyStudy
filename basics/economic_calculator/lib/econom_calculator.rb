@@ -1,4 +1,5 @@
 require 'csv'
+require_relative 'econ_calc_mixin'
 
 class EconomCalculator
   def initialize(file_name)
@@ -13,104 +14,83 @@ class EconomCalculator
     prepare_data
   end
 
-  def columns_name
+  def to_columns_name
     return "Incorrect data!\n" unless @is_data
 
-    "#{@columns_name.join(',')}\n"
+    @columns_name
   end
 
-  def max
+  def find_max(col = 'blank')
     return "Incorrect data!\n" unless @is_data
 
-    res = (0..@n_columns).reduce([]) do |res_columns, i|
-      res_columns.append (@data_matrix.reduce([]) do |vals_columns, row|
-        vals_columns.append row[i]
-      end).max
-    end
-
-    "#{res.join(',')}\n"
-  end
-
-  def min
-    return "Incorrect data!\n" unless @is_data
-
-    res = (0..@n_columns).reduce([]) do |res_columns, i|
-      res_columns.append (@data_matrix.reduce([]) do |vals_columns, row|
-        vals_columns.append row[i]
-      end).min
-    end
-
-    "#{res.join(',')}\n"
-  end
-
-  def find_mean
-    return "Incorrect data!\n" unless @is_data
-
-    mean = (0..@n_columns).reduce([]) do |init, _|
-      init.append(0)
-    end
-
-    @data_matrix.each do |row|
-      (0..row.length - 1).each do |i|
-        mean[i] += row[i]
+    if col == 'blank'
+      (0..@n_columns).reduce([]) do |res_columns, i|
+        res_columns.append (@data_matrix.reduce([]) do |vals_columns, row|
+          vals_columns.append row[i]
+        end).max
       end
+    else
+      find_max_column(col)
     end
-
-    mean.map! do |res_column|
-      (res_column / @n_rows).round(4)
-    end.join(',')
-
-    "#{mean.join(',')}\n"
   end
 
-  def variance
+  def find_min(col = 'blank')
     return "Incorrect data!\n" unless @is_data
 
-    res = (0..@n_columns).reduce([]) do |init, _|
-      init.append(0)
-    end
-
-    to_center.each do |row|
-      (0..@n_columns).each do |i|
-        res[i] += row[i]
+    if col == 'blank'
+      (0..@n_columns).reduce([]) do |res_columns, i|
+        res_columns.append (@data_matrix.reduce([]) do |vals_columns, row|
+          vals_columns.append row[i]
+        end).min
       end
+    else
+      find_min_column(col)
     end
-
-    res.map! do |res_column|
-      (res_column / (@n_rows - 1)).round(4)
-    end
-
-    "#{res.join(',')}\n"
   end
 
-  protected
+  def find_mean(col = 'blank')
+    return "Incorrect data!\n" unless @is_data
 
-  def numeric?(value)
-    !Float(value).nil?
-  rescue StandardError
-    false
-  end
-
-  def to_center
-    mean = find_mean.split(',')
-    Marshal.load(Marshal.dump(@data_matrix)).each do |row|
-      (0..row.length - 1).each do |i|
-        row[i] = row[i] - mean[i].to_f # center
-        row[i] *= row[i]
+    if col == 'blank'
+      mean = (0..@n_columns).reduce([]) do |init, _|
+        init.append(0)
       end
-    end
-  end
 
-  def prepare_data
-    @data_matrix = @data_matrix.each do |row|
-      (0..@n_columns).each do |i|
-        row[i] = row[i].split(',').join('.')
-        if numeric? row[i]
-          row[i] = row[i].to_f
-        else
-          @is_data = false
+      @data_matrix.each do |row|
+        (0..row.length - 1).each do |i|
+          mean[i] += row[i]
         end
       end
+
+      mean.map! do |res_column|
+        (res_column / @n_rows).round(4)
+      end
+    else
+      find_mean_column(col)
     end
   end
+
+  def find_variance(col = 'blank')
+    return "Incorrect data!\n" unless @is_data
+
+    if col == 'blank'
+      res = (0..@n_columns).reduce([]) do |init, _|
+        init.append(0)
+      end
+
+      to_center.each do |row|
+        (0..@n_columns).each do |i|
+          res[i] += row[i]
+        end
+      end
+
+      res.map! do |res_column|
+        (res_column / (@n_rows - 1)).round(4)
+      end
+    else
+      find_variance_column(col)
+    end
+  end
+
+  include EconCalcMixin
 end
