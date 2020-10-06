@@ -7,7 +7,7 @@ class App
     print "#{data.find_min.join(',')}\n"
     print "#{data.find_max.join(',')}\n"
     print "#{data.find_variance.join(',')}\n"
-    print "Years (mean): #{data.find_mean('Годы')}"
+    print "Years (mean): #{data.find_mean('Годы')}\n"
   end
 end
 
